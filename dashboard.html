@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Vinayagam - Management Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <nav class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">V</span>
+          <span>Hotel Vinayagam</span>
+        </a>
+        <div class="topbar-links">
+          <a href="index.html">Booking page</a>
+          <span class="topbar-pill">Management</span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="dash">
+      <section class="stats-row" id="statsRow">
+        <div class="stat-card">
+          <span class="stat-label">Today check-ins</span>
+          <strong class="stat-value" id="statCheckIns">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Today check-outs</span>
+          <strong class="stat-value" id="statCheckOuts">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Active bookings</span>
+          <strong class="stat-value" id="statActive">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">This month revenue</span>
+          <strong class="stat-value" id="statRevenue">Rs. 0</strong>
+        </div>
+      </section>
+
+      <section class="calendar-section">
+        <div class="calendar-header">
+          <h2>Booking Calendar</h2>
+          <div class="calendar-nav">
+            <button id="prevMonth" type="button">&larr; Prev</button>
+            <strong id="calendarTitle">June 2026</strong>
+            <button id="nextMonth" type="button">Next &rarr;</button>
+            <button id="todayBtn" type="button" class="today-btn">Today</button>
+          </div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <div class="calendar-legend">
+          <span><i class="dot dot-confirmed"></i> Confirmed</span>
+          <span><i class="dot dot-checkedin"></i> Checked in</span>
+          <span><i class="dot dot-completed"></i> Completed</span>
+          <span><i class="dot dot-cancelled"></i> Cancelled</span>
+        </div>
+      </section>
+
+      <section class="bookings-section">
+        <div class="bookings-header">
+          <h2>All Bookings</h2>
+          <div class="filter-row">
+            <input type="text" id="searchInput" placeholder="Search guest name or phone..." />
+            <select id="statusFilter">
+              <option value="">All statuses</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Checked in">Checked in</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            <select id="roomFilter">
+              <option value="">All rooms</option>
+              <option value="standard">Standard</option>
+              <option value="deluxe">Deluxe</option>
+              <option value="family">Family</option>
+            </select>
+            <input type="date" id="dateFrom" title="From date" />
+            <input type="date" id="dateTo" title="To date" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Guest</th>
+                <th>Phone</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Room</th>
+                <th>Rooms</th>
+                <th>Nights</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="bookingModal">
+        <div class="modal-header">
+          <h3 id="modalTitle">Booking Details</h3>
+          <button type="button" id="modalClose">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
