@@ -1,0 +1,627 @@
+:root {
+  color-scheme: light;
+  --ink: #18201d;
+  --muted: #68736e;
+  --line: #d9ded8;
+  --surface: #ffffff;
+  --soft: #f4f7f3;
+  --accent: #087f5b;
+  --accent-dark: #056044;
+  --warm: #f4b860;
+  --shadow: 0 18px 45px rgba(24, 32, 29, 0.13);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--soft);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-header {
+  min-height: 560px;
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(8, 39, 31, 0.82), rgba(8, 39, 31, 0.32)),
+    url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=80") center/cover;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand-mark,
+.avatar-button,
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-pill {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.icon-button,
+.avatar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  align-items: end;
+  gap: 38px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 90px 24px 46px;
+}
+
+.hero-copy {
+  max-width: 700px;
+  padding-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--warm);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 780px;
+  margin: 0 0 18px;
+  font-size: clamp(2.45rem, 6vw, 5.3rem);
+  line-height: 0.98;
+}
+
+.hero p:not(.eyebrow) {
+  max-width: 570px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.search-panel,
+.filters,
+.booking-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow);
+}
+
+.search-panel {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  color: var(--ink);
+}
+
+label,
+legend {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0 12px;
+}
+
+.search-panel button,
+#bookButton {
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--accent);
+  font-weight: 800;
+}
+
+.search-panel button:hover,
+#bookButton:hover {
+  background: var(--accent-dark);
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr) 300px;
+  gap: 24px;
+  max-width: 1180px;
+  margin: -34px auto 48px;
+  padding: 0 24px;
+  align-items: start;
+}
+
+.single-hotel-shell {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.hotel-profile {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+.filters,
+.booking-panel {
+  position: sticky;
+  top: 18px;
+  padding: 18px;
+}
+
+.section-title,
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.28rem;
+}
+
+fieldset {
+  margin: 22px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.range-row,
+.total-box div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.range-row {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.segmented button,
+.text-button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.segmented button {
+  min-height: 38px;
+}
+
+.segmented .active {
+  border-color: var(--accent);
+  background: #e8f6f0;
+  color: var(--accent-dark);
+}
+
+.text-button {
+  min-height: 34px;
+  padding: 0 10px;
+  color: var(--accent-dark);
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 34px;
+  margin-top: 8px;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.check-row input {
+  width: 18px;
+  min-height: 18px;
+  margin: 0;
+}
+
+.results-area {
+  min-width: 0;
+}
+
+.results-header {
+  margin-bottom: 18px;
+}
+
+.results-header .eyebrow {
+  color: var(--accent);
+}
+
+.hotel-profile .eyebrow,
+.bookings-section .eyebrow {
+  color: var(--accent);
+}
+
+.sort-label {
+  min-width: 190px;
+}
+
+.hotel-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.hotel-card {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 12px 24px rgba(24, 32, 29, 0.07);
+}
+
+.hotel-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  object-fit: cover;
+}
+
+.hotel-content {
+  display: grid;
+  gap: 12px;
+  padding: 18px 18px 18px 0;
+}
+
+.hotel-top,
+.hotel-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hotel-card h3 {
+  margin: 0 0 7px;
+  font-size: 1.32rem;
+}
+
+.meta,
+.amenities,
+.price-note {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  border-radius: 8px;
+  background: #fff7e8;
+  color: #8a5a00;
+  padding: 0 9px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.amenities span {
+  border-radius: 8px;
+  background: var(--soft);
+  padding: 6px 9px;
+}
+
+.price {
+  font-size: 1.42rem;
+  font-weight: 900;
+  text-align: right;
+}
+
+.select-room {
+  min-height: 42px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--accent-dark);
+  padding: 0 14px;
+  font-weight: 900;
+}
+
+.select-room.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.featured-hotel {
+  grid-template-columns: minmax(260px, 42%) minmax(0, 1fr);
+}
+
+.featured-hotel h2 {
+  font-size: 1.7rem;
+}
+
+.room-list,
+.bookings-section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 12px 24px rgba(24, 32, 29, 0.07);
+  padding: 18px;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.room-card {
+  display: grid;
+  gap: 8px;
+  min-height: 150px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 14px;
+  text-align: left;
+}
+
+.room-card span,
+.room-card strong {
+  font-weight: 900;
+}
+
+.room-card small {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.room-card.active {
+  border-color: var(--accent);
+  background: #e8f6f0;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.empty-state {
+  margin-top: 16px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  padding: 18px;
+  line-height: 1.5;
+}
+
+.total-box {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.grand-total {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  font-size: 1.12rem;
+}
+
+.bookings-section {
+  grid-column: 1 / -1;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 13px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.empty-table {
+  color: var(--muted);
+  text-align: center;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  border-radius: 8px;
+  background: #e8f6f0;
+  color: var(--accent-dark);
+  padding: 0 9px;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  max-width: min(360px, calc(100vw - 44px));
+  transform: translateY(24px);
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 1040px) {
+  .app-shell {
+    grid-template-columns: 230px minmax(0, 1fr);
+  }
+
+  .single-hotel-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-panel {
+    position: static;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-header {
+    min-height: 680px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 54px;
+  }
+
+  .hero-copy {
+    padding-bottom: 0;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+    margin-top: 24px;
+  }
+
+  .filters {
+    position: static;
+  }
+
+  .hotel-card {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-hotel {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-card img {
+    aspect-ratio: 16 / 10;
+    min-height: auto;
+  }
+
+  .hotel-content {
+    padding: 0 16px 16px;
+  }
+
+  .hotel-top,
+  .hotel-bottom,
+  .results-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .price {
+    text-align: left;
+  }
+
+  .sort-label {
+    width: 100%;
+  }
+
+  .room-grid {
+    grid-template-columns: 1fr;
+  }
+}

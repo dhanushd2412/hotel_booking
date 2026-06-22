@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: hotel_vinayagam_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hotel_vinayagam
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hotelvinayagam123
+    ports:
+      - "5432:5432"
+    volumes:
+      - hotel_vinayagam_pgdata:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
+  adminer:
+    image: adminer:latest
+    container_name: hotel_vinayagam_adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  api:
+    build: .
+    container_name: hotel_vinayagam_api
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgres://postgres:hotelvinayagam123@postgres:5432/hotel_vinayagam
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+
+volumes:
+  hotel_vinayagam_pgdata:

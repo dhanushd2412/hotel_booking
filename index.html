@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Vinayagam Booking</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <nav class="nav">
+        <a class="brand" href="#" aria-label="Hotel Vinayagam home">
+          <span class="brand-mark">V</span>
+          <span>Hotel Vinayagam</span>
+        </a>
+        <div class="nav-actions">
+          <span class="nav-pill">Direct booking</span>
+        </div>
+      </nav>
+
+      <section class="hero" aria-label="Hotel Vinayagam booking">
+        <div class="hero-copy">
+          <p class="eyebrow">Welcome to Hotel Vinayagam</p>
+          <h1>Comfortable rooms for your stay.</h1>
+          <p>
+            Book rooms at Hotel Vinayagam, review your total instantly, and keep
+            reservation details safely in this browser for follow-up.
+          </p>
+        </div>
+
+        <form class="search-panel" id="bookingForm">
+          <label>
+            Guest name
+            <input id="guestName" type="text" placeholder="Enter full name" required />
+          </label>
+          <label>
+            Phone number
+            <input id="guestPhone" type="tel" placeholder="Enter mobile number" required />
+          </label>
+          <label>
+            Check in
+            <input id="checkIn" type="date" required />
+          </label>
+          <label>
+            Check out
+            <input id="checkOut" type="date" required />
+          </label>
+          <label>
+            Guests
+            <input id="guests" type="number" min="1" max="8" value="2" required />
+          </label>
+          <label>
+            Room type
+            <select id="roomType"></select>
+          </label>
+          <button type="submit">Confirm booking</button>
+        </form>
+      </section>
+    </header>
+
+    <main class="app-shell single-hotel-shell">
+      <section class="hotel-profile" aria-label="Hotel details">
+        <article class="hotel-card featured-hotel">
+          <img
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+            alt="Hotel Vinayagam building and pool"
+          />
+          <div class="hotel-content">
+            <div class="hotel-top">
+              <div>
+                <p class="eyebrow">Only available hotel</p>
+                <h2>Hotel Vinayagam</h2>
+                <div class="meta">Main Road, Tamil Nadu</div>
+              </div>
+              <span class="rating">4.6 rating</span>
+            </div>
+            <p class="meta">
+              A clean, family-friendly hotel with standard, deluxe, and family
+              rooms. Ideal for short visits, business travel, and small family
+              stays.
+            </p>
+            <div class="amenities">
+              <span>Breakfast</span>
+              <span>AC rooms</span>
+              <span>Wi-Fi</span>
+              <span>Parking</span>
+              <span>Room service</span>
+            </div>
+          </div>
+        </article>
+
+        <section class="room-list" aria-label="Room options">
+          <div class="section-title">
+            <h2>Room options</h2>
+            <span id="nightCount">1 night</span>
+          </div>
+          <div id="roomGrid" class="room-grid"></div>
+        </section>
+      </section>
+
+      <aside class="booking-panel" aria-label="Booking summary">
+        <div class="section-title">
+          <h2>Booking total</h2>
+          <span id="roomCount">1 room</span>
+        </div>
+        <div id="selectedHotel" class="empty-state"></div>
+        <div class="total-box" id="totalBox">
+          <div>
+            <span>Room total</span>
+            <strong id="roomTotal">Rs. 0</strong>
+          </div>
+          <div>
+            <span>Taxes and fees</span>
+            <strong id="taxTotal">Rs. 0</strong>
+          </div>
+          <div class="grand-total">
+            <span>Total</span>
+            <strong id="grandTotal">Rs. 0</strong>
+          </div>
+        </div>
+      </aside>
+
+      <section class="bookings-section" aria-label="Saved booking data">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Maintained data</p>
+            <h2>Saved bookings</h2>
+          </div>
+          <button class="text-button" id="clearBookings" type="button">Clear all</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Guest</th>
+                <th>Phone</th>
+                <th>Dates</th>
+                <th>Room</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
