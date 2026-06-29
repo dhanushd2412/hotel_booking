@@ -773,6 +773,202 @@
         background: var(--soft);
       }
 
+      /* ===== AI Demand Prediction Button ===== */
+      .btn-ai-predict {
+        min-height: 40px;
+        padding: 0 16px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #08271f, #0b3d30);
+        color: #c9a84c;
+        font-size: 0.82rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: opacity 150ms;
+        white-space: nowrap;
+      }
+      .btn-ai-predict:hover { opacity: 0.88; }
+      .btn-ai-predict:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      /* ===== AI Demand Prediction Modal ===== */
+      .dp-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 10000;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 32px 16px;
+        overflow-y: auto;
+      }
+      .dp-overlay.open { display: flex; }
+
+      .dp-modal {
+        background: var(--surface);
+        border-radius: 16px;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .dp-header {
+        background: linear-gradient(135deg, #08271f, #0b3d30);
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .dp-header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .dp-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #c9a84c;
+        color: #08271f;
+        font-weight: 900;
+        font-size: 1.4rem;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+      .dp-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #c9a84c;
+        margin: 0;
+      }
+      .dp-subtitle {
+        font-size: 0.74rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 3px 0 0;
+        letter-spacing: 0.03em;
+      }
+      .dp-close {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 1.7rem;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0 4px;
+        flex-shrink: 0;
+      }
+      .dp-close:hover { color: #fff; }
+
+      .dp-body {
+        padding: 24px;
+        overflow-y: auto;
+      }
+
+      /* Loading spinner */
+      .dp-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 64px 20px;
+        gap: 18px;
+      }
+      .dp-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(8, 39, 31, 0.12);
+        border-top-color: #08271f;
+        border-radius: 50%;
+        animation: dpSpin 0.8s linear infinite;
+      }
+      @keyframes dpSpin { to { transform: rotate(360deg); } }
+      .dp-loading-text {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      /* Prediction sections */
+      .dp-section {
+        margin-bottom: 16px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        overflow: hidden;
+      }
+      .dp-section:last-child { margin-bottom: 0; }
+
+      .dp-section-header {
+        background: linear-gradient(135deg, #08271f, #0b3d30);
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .dp-section-title {
+        font-size: 0.84rem;
+        font-weight: 800;
+        color: #c9a84c;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .dp-section-content {
+        padding: 14px 16px;
+        font-size: 0.88rem;
+        line-height: 1.7;
+        color: var(--ink);
+        margin: 0;
+        background: var(--soft);
+        white-space: pre-wrap;
+      }
+
+      .dp-error {
+        padding: 24px;
+        background: #f8d7da;
+        border-radius: 10px;
+        color: #721c24;
+        font-size: 0.9rem;
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      .dp-raw {
+        font-size: 0.88rem;
+        line-height: 1.7;
+        color: var(--ink);
+        white-space: pre-wrap;
+        padding: 4px;
+      }
+
+      .dp-footer {
+        padding: 16px 24px;
+        border-top: 1px solid var(--line);
+        flex-shrink: 0;
+        background: var(--surface);
+      }
+      .dp-close-btn {
+        display: block;
+        width: 100%;
+        padding: 13px;
+        background: linear-gradient(135deg, #08271f, #0b3d30);
+        color: #c9a84c;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.92rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: opacity 150ms;
+      }
+      .dp-close-btn:hover { opacity: 0.88; }
+
       @media (max-width: 760px) {
         .cal-cell {
           min-height: 70px;
@@ -883,6 +1079,7 @@
         </div>
         <button class="btn-clear-filters" id="btnClearFilters" type="button">Clear Filters</button>
         <div class="export-group">
+          <button class="btn-ai-predict" id="btnAiPredict" type="button">AI Demand Prediction</button>
           <button class="btn-export" id="btnExportExcel" type="button">Export Excel</button>
           <button class="btn-export" id="btnExportPdf" type="button">Export PDF</button>
           <button class="btn-clear-test-data" id="btnClearTestData" type="button">Clear Test Data</button>
@@ -946,6 +1143,26 @@
         </div>
         <div class="cal-grid" id="calGrid">
           <div class="loading-msg" style="grid-column:1/-1;">Loading bookings...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AI DEMAND PREDICTION MODAL ===== -->
+    <div class="dp-overlay" id="dpOverlay" role="dialog" aria-modal="true" aria-labelledby="dpTitle">
+      <div class="dp-modal">
+        <div class="dp-header">
+          <div class="dp-header-left">
+            <span class="dp-logo">V</span>
+            <div>
+              <h2 class="dp-title" id="dpTitle">AI Demand Prediction</h2>
+              <p class="dp-subtitle">Powered by Ollama llama3.2 &middot; Hotel Vinayagam</p>
+            </div>
+          </div>
+          <button class="dp-close" id="dpClose" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="dp-body" id="dpBody"></div>
+        <div class="dp-footer">
+          <button class="dp-close-btn" id="dpCloseBtn" type="button">Close</button>
         </div>
       </div>
     </div>
@@ -1599,6 +1816,88 @@
         doc.text("Hotel Vinayagam — Main Road, Turaiyur, Tamil Nadu", 105, doc.internal.pageSize.height - 10, { align: "center" });
 
         doc.save(`Hotel_Vinayagam_Bookings_${toDateStr(today)}.pdf`);
+      });
+
+      // ===== AI DEMAND PREDICTION =====
+
+      const dpOverlay = document.getElementById("dpOverlay");
+      const dpBody = document.getElementById("dpBody");
+      const btnAiPredict = document.getElementById("btnAiPredict");
+
+      function closeDpModal() { dpOverlay.classList.remove("open"); }
+
+      document.getElementById("dpClose").addEventListener("click", closeDpModal);
+      document.getElementById("dpCloseBtn").addEventListener("click", closeDpModal);
+      dpOverlay.addEventListener("click", (e) => { if (e.target === dpOverlay) closeDpModal(); });
+
+      function parsePredictionSections(text) {
+        const defs = [
+          { key: "Busy Days Forecast" },
+          { key: "Popular Room Types" },
+          { key: "Revenue Insights" },
+          { key: "Staff Planning Tips" },
+          { key: "Pricing Suggestions" },
+        ];
+        const results = [];
+        for (let i = 0; i < defs.length; i++) {
+          const header = `**${defs[i].key}**`;
+          const idx = text.indexOf(header);
+          if (idx === -1) continue;
+          const start = idx + header.length;
+          let end = text.length;
+          for (let j = i + 1; j < defs.length; j++) {
+            const ni = text.indexOf(`**${defs[j].key}**`, start);
+            if (ni !== -1 && ni < end) end = ni;
+          }
+          results.push({ title: defs[i].key, content: text.slice(start, end).trim() });
+        }
+        return results;
+      }
+
+      function renderPrediction(prediction) {
+        const sections = parsePredictionSections(prediction);
+        if (!sections.length) {
+          return `<div class="dp-raw">${escapeHtml(prediction)}</div>`;
+        }
+        return sections.map(s => `
+          <div class="dp-section">
+            <div class="dp-section-header">
+              <h3 class="dp-section-title">${escapeHtml(s.title)}</h3>
+            </div>
+            <p class="dp-section-content">${escapeHtml(s.content)}</p>
+          </div>`).join("");
+      }
+
+      btnAiPredict.addEventListener("click", async () => {
+        dpBody.innerHTML = `
+          <div class="dp-loading">
+            <div class="dp-spinner"></div>
+            <p class="dp-loading-text">Analysing booking data with AI&hellip;<br>This may take 15&ndash;30 seconds.</p>
+          </div>`;
+        dpOverlay.classList.add("open");
+        btnAiPredict.disabled = true;
+
+        try {
+          const token = sessionStorage.getItem("adminToken");
+          const res = await fetch(`${API_BASE_URL}/demand-prediction`, {
+            method: "POST",
+            headers: Object.assign(
+              { "Content-Type": "application/json" },
+              token ? { Authorization: `Bearer ${token}` } : {}
+            ),
+            body: JSON.stringify({})
+          });
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            dpBody.innerHTML = `<div class="dp-error">${escapeHtml(data.error || "Failed to generate prediction.")}</div>`;
+          } else {
+            dpBody.innerHTML = renderPrediction(data.prediction);
+          }
+        } catch {
+          dpBody.innerHTML = `<div class="dp-error">Unable to reach the AI service. Please make sure Ollama and the Python service are running on port 5001.</div>`;
+        } finally {
+          btnAiPredict.disabled = false;
+        }
       });
     </script>
   </body>
