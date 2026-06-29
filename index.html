@@ -308,6 +308,25 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+    <!-- ===== AI BOOKING SUMMARY MODAL ===== -->
+    <div class="bsm-overlay" id="bookingSummaryModal" role="dialog" aria-modal="true" aria-labelledby="bsmTitle">
+      <div class="bsm-card">
+        <div class="bsm-header">
+          <span class="bsm-logo">V</span>
+          <div>
+            <h2 class="bsm-hotel" id="bsmTitle">Hotel Vinayagam</h2>
+            <p class="bsm-confirmed">Booking Confirmed</p>
+          </div>
+        </div>
+        <h3 class="bsm-guest-name" id="bookingSummaryName"></h3>
+        <p class="bsm-meta" id="bookingSummaryDetails"></p>
+        <div class="bsm-divider"></div>
+        <p class="bsm-ai-label"><span class="bsm-ai-badge">AI Summary</span></p>
+        <p class="bsm-text" id="bookingSummaryText"></p>
+        <button class="bsm-close-btn" id="bookingSummaryClose" type="button">Close</button>
+      </div>
+    </div>
+
     <!-- ===== CHAT WIDGET ===== -->
     <button class="chat-bubble" id="chatBubble" type="button" aria-label="Open chat assistant">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -531,6 +550,115 @@
         }
         .chat-bubble { bottom: 16px; right: 16px; width: 52px; height: 52px; }
       }
+
+      /* ===== AI Booking Summary Modal ===== */
+      .bsm-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .bsm-overlay.open { display: flex; }
+
+      .bsm-card {
+        background: var(--primary);
+        color: #fff;
+        border-radius: 20px;
+        padding: 36px 32px;
+        max-width: 480px;
+        width: 100%;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+        border: 1px solid rgba(201,168,76,0.25);
+      }
+      .bsm-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .bsm-logo {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--primary);
+        font-weight: 900;
+        font-size: 1.5rem;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+      .bsm-hotel {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--gold);
+        margin: 0;
+      }
+      .bsm-confirmed {
+        font-size: 0.78rem;
+        color: rgba(255,255,255,0.65);
+        margin: 3px 0 0;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .bsm-guest-name {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 5px;
+      }
+      .bsm-meta {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.7);
+        margin: 0 0 20px;
+      }
+      .bsm-divider {
+        height: 1px;
+        background: rgba(255,255,255,0.12);
+        margin: 0 0 18px;
+      }
+      .bsm-ai-label { margin: 0 0 10px; }
+      .bsm-ai-badge {
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: rgba(201,168,76,0.18);
+        color: var(--gold);
+        border: 1px solid rgba(201,168,76,0.45);
+        padding: 3px 11px;
+        border-radius: 20px;
+      }
+      .bsm-text {
+        font-size: 0.93rem;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.88);
+        margin: 0 0 28px;
+      }
+      .bsm-close-btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: var(--gold);
+        color: var(--primary);
+        border: none;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .bsm-close-btn:hover { background: #e0bc5a; }
+
+      @media (max-width: 480px) {
+        .bsm-card { padding: 28px 20px; }
+        .bsm-guest-name { font-size: 1.15rem; }
+      }
     </style>
 
     <script src="app.js"></script>
@@ -571,6 +699,11 @@
           document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
         });
       });
+
+      // Booking summary modal close
+      const _bsmModal = document.getElementById("bookingSummaryModal");
+      document.getElementById("bookingSummaryClose").addEventListener("click", () => _bsmModal.classList.remove("open"));
+      _bsmModal.addEventListener("click", (e) => { if (e.target === _bsmModal) _bsmModal.classList.remove("open"); });
 
       // Smooth scroll for anchor links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {

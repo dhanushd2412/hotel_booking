@@ -404,6 +404,7 @@ bookingForm.addEventListener("submit", async (event) => {
     sync();
     fetchBookedDates(state.selectedRoomId);
     showToast(`Booking confirmed for ${savedBooking.name} at ${hotel.name}.`);
+    fetchAndShowAISummary(savedBooking);
   } catch (error) {
     showToast(error.message);
   }
@@ -812,4 +813,38 @@ function appendTypingIndicator() {
   chatMessages.appendChild(wrapper);
   chatMessages.scrollTop = chatMessages.scrollHeight;
   return wrapper;
+}
+
+async function fetchAndShowAISummary(booking) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/booking-summary`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        guestName: booking.name,
+        roomType: booking.roomName,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        guests: booking.guests,
+        total: booking.total,
+        nights: booking.nights
+      })
+    });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (data.summary) showBookingSummaryModal(data.summary, booking);
+  } catch {
+    // AI summary is non-critical — silently skip on failure
+  }
+}
+
+function showBookingSummaryModal(summary, booking) {
+  const modal = document.getElementById("bookingSummaryModal");
+  if (!modal) return;
+  const nightLabel = booking.nights === 1 ? "night" : "nights";
+  document.getElementById("bookingSummaryName").textContent = `Welcome, ${booking.name}!`;
+  document.getElementById("bookingSummaryDetails").textContent =
+    `${booking.roomName} · ${booking.checkIn} to ${booking.checkOut} · ${booking.nights} ${nightLabel}`;
+  document.getElementById("bookingSummaryText").textContent = summary;
+  modal.classList.add("open");
 }
