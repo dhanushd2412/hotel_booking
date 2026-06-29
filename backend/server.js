@@ -220,6 +220,22 @@ app.patch("/api/bookings/:id/status", async (req, res, next) => {
   }
 });
 
+app.post("/api/chat", async (req, res) => {
+  try {
+    const response = await fetch("http://host.docker.internal:5001/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
+    });
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch {
+    res.status(503).json({
+      error: "Chat service is not available. Please make sure the Python chat service is running on port 5001."
+    });
+  }
+});
+
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(error.status || 500).json({

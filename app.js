@@ -42,7 +42,6 @@ const state = {
   bookedRanges: []
 };
 
-const STORAGE_KEY = "hotelVinayagamBookings";
 const API_BASE_URL = "http://localhost:4000/api";
 
 const formatter = new Intl.NumberFormat("en-IN", {
@@ -66,7 +65,6 @@ const grandTotal = document.querySelector("#grandTotal");
 const nightCount = document.querySelector("#nightCount");
 const roomCount = document.querySelector("#roomCount");
 const bookingTable = document.querySelector("#bookingTable");
-const clearBookings = document.querySelector("#clearBookings");
 const bookedDatesInfo = document.querySelector("#bookedDatesInfo");
 const toast = document.querySelector("#toast");
 
@@ -211,7 +209,7 @@ function renderSavedBookings() {
   if (!state.bookings.length) {
     bookingTable.innerHTML = `
       <tr>
-        <td colspan="6" class="empty-table">No bookings saved yet.</td>
+        <td colspan="6" class="empty-table">No bookings yet. Your bookings will appear here after you book.</td>
       </tr>
     `;
     return;
@@ -274,25 +272,6 @@ function renderSavedBookings() {
     .join("");
 }
 
-async function loadBookings() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/bookings`);
-    if (!response.ok) throw new Error("Backend bookings could not be loaded.");
-    const bookings = await response.json();
-    state.bookings = bookings.map(normalizeBooking);
-    saveBookings();
-    return;
-  } catch (error) {
-    console.info("Using local bookings because backend is unavailable.", error);
-  }
-
-  const saved = localStorage.getItem(STORAGE_KEY);
-  state.bookings = saved ? JSON.parse(saved) : [];
-}
-
-function saveBookings() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.bookings));
-}
 
 async function fetchBookedDates(roomId) {
   try {
@@ -418,7 +397,6 @@ bookingForm.addEventListener("submit", async (event) => {
   try {
     const savedBooking = await saveBookingToBackend(booking);
     state.bookings.unshift(savedBooking);
-    saveBookings();
     bookingForm.reset();
     setInitialDates();
     state.selectedRoomId = "mini-standard";
@@ -484,13 +462,6 @@ checkOut.addEventListener("change", () => {
 guests.addEventListener("input", () => {
   sync();
   fetchBookedDates(state.selectedRoomId);
-});
-
-clearBookings.addEventListener("click", () => {
-  state.bookings = [];
-  saveBookings();
-  renderSavedBookings();
-  showToast("Saved booking data cleared.");
 });
 
 const roomInventory = {
@@ -703,7 +674,6 @@ async function checkGroupAvailability() {
       }
 
       if (successCount > 0) {
-        saveBookings();
         statusEl.textContent = "All rooms booked successfully!";
         statusEl.style.color = "var(--accent)";
         statusEl.style.fontWeight = "800";
@@ -750,7 +720,96 @@ function renderGroupDefault(container) {
 }
 
 setInitialDates();
-loadBookings().finally(() => {
-  sync();
-  fetchBookedDates(state.selectedRoomId);
-});
+sync();
+fetchBookedDates(state.selectedRoomId);
+
+// ===== CHAT ASSISTANT =====
+
+const chatBubble = document.querySelector("#chatBubble");
+const chatPanel = document.querySelector("#chatPanel");
+const chatClose = document.querySelector("#chatClose");
+const chatMessages = document.querySelector("#chatMessages");
+const chatInput = document.querySelector("#chatInput");
+const chatSend = document.querySelector("#chatSend");
+
+if (chatBubble && chatPanel) {
+  chatBubble.addEventListener("click", () => {
+    chatPanel.classList.add("open");
+    chatBubble.classList.add("hidden");
+    chatInput.focus();
+  });
+
+  chatClose.addEventListener("click", () => {
+    chatPanel.classList.remove("open");
+    chatBubble.classList.remove("hidden");
+  });
+
+  chatSend.addEventListener("click", sendChatMessage);
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendChatMessage();
+    }
+  });
+}
+
+async function sendChatMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  appendChatMsg("user", message);
+  chatInput.value = "";
+  chatSend.disabled = true;
+  chatInput.disabled = true;
+
+  const typingEl = appendTypingIndicator();
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message,
+        checkIn: checkIn.value || null,
+        checkOut: checkOut.value || null
+      })
+    });
+
+    const data = await response.json();
+    typingEl.remove();
+
+    if (data.reply) {
+      appendChatMsg("bot", data.reply);
+    } else {
+      appendChatMsg("bot", data.error || "Sorry, I couldn't get a response. Please try again.");
+    }
+  } catch {
+    typingEl.remove();
+    appendChatMsg("bot", "Unable to reach the assistant. Please make sure the chat service and Ollama are running.");
+  }
+
+  chatSend.disabled = false;
+  chatInput.disabled = false;
+  chatInput.focus();
+}
+
+function appendChatMsg(role, text) {
+  const wrapper = document.createElement("div");
+  wrapper.className = `chat-msg ${role}`;
+  const bubble = document.createElement("div");
+  bubble.className = "chat-msg-bubble";
+  bubble.textContent = text;
+  wrapper.appendChild(bubble);
+  chatMessages.appendChild(wrapper);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return wrapper;
+}
+
+function appendTypingIndicator() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "chat-msg bot";
+  wrapper.innerHTML = `<div class="chat-typing"><span></span><span></span><span></span></div>`;
+  chatMessages.appendChild(wrapper);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return wrapper;
+}

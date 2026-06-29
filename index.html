@@ -265,7 +265,6 @@
       <div class="bookings-card">
         <div class="section-title">
           <h2>Your Bookings</h2>
-          <button class="text-button" id="clearBookings" type="button">Clear all</button>
         </div>
         <div class="table-wrap">
           <table>
@@ -308,6 +307,231 @@
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- ===== CHAT WIDGET ===== -->
+    <button class="chat-bubble" id="chatBubble" type="button" aria-label="Open chat assistant">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </button>
+
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <span class="chat-header-icon">V</span>
+          <div>
+            <strong>Hotel Vinayagam Assistant</strong>
+            <small>Ask about rooms, pricing &amp; more</small>
+          </div>
+        </div>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">&times;</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <div class="chat-msg-bubble">Welcome to Hotel Vinayagam! I can help you with room availability, pricing, amenities, and local weather. How can I assist you?</div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Ask about rooms, prices, weather..." autocomplete="off" />
+        <button class="chat-send" id="chatSend" type="button" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <style>
+      .chat-bubble {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        z-index: 9998;
+        transition: transform 0.2s, background 0.2s;
+      }
+      .chat-bubble:hover {
+        transform: scale(1.08);
+        background: var(--primary-deep);
+      }
+      .chat-bubble.hidden { display: none; }
+
+      .chat-panel {
+        position: fixed;
+        bottom: 100px;
+        right: 28px;
+        width: 380px;
+        max-height: 520px;
+        background: var(--surface);
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        display: none;
+        flex-direction: column;
+        z-index: 9999;
+        overflow: hidden;
+        font-family: inherit;
+      }
+      .chat-panel.open { display: flex; }
+
+      .chat-header {
+        background: var(--primary);
+        color: #fff;
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .chat-header-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .chat-header-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--primary);
+        font-weight: 900;
+        font-size: 1.1rem;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+      .chat-header strong {
+        display: block;
+        font-size: 0.92rem;
+      }
+      .chat-header small {
+        display: block;
+        font-size: 0.75rem;
+        opacity: 0.8;
+        margin-top: 1px;
+      }
+      .chat-close {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0 4px;
+        line-height: 1;
+        opacity: 0.8;
+      }
+      .chat-close:hover { opacity: 1; }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 280px;
+        max-height: 340px;
+        background: var(--soft);
+      }
+
+      .chat-msg { display: flex; }
+      .chat-msg.user { justify-content: flex-end; }
+      .chat-msg.bot { justify-content: flex-start; }
+
+      .chat-msg-bubble {
+        max-width: 85%;
+        padding: 10px 14px;
+        border-radius: 14px;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        word-wrap: break-word;
+      }
+      .chat-msg.user .chat-msg-bubble {
+        background: var(--primary);
+        color: #fff;
+        border-bottom-right-radius: 4px;
+      }
+      .chat-msg.bot .chat-msg-bubble {
+        background: var(--surface);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-bottom-left-radius: 4px;
+      }
+
+      .chat-typing {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        padding: 10px 14px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        border-bottom-left-radius: 4px;
+        max-width: 70px;
+      }
+      .chat-typing span {
+        width: 7px;
+        height: 7px;
+        background: var(--muted);
+        border-radius: 50%;
+        animation: chatBounce 1.2s infinite;
+      }
+      .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+      .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes chatBounce {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-6px); }
+      }
+
+      .chat-input-area {
+        display: flex;
+        gap: 8px;
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+      }
+      .chat-input {
+        flex: 1;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 0.88rem;
+        outline: none;
+        background: var(--soft);
+      }
+      .chat-input:focus { border-color: var(--gold); }
+      .chat-send {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: none;
+        background: var(--gold);
+        color: var(--primary);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.2s;
+      }
+      .chat-send:hover { background: var(--gold-light); }
+      .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      @media (max-width: 480px) {
+        .chat-panel {
+          width: calc(100vw - 20px);
+          right: 10px;
+          bottom: 80px;
+          max-height: 70vh;
+        }
+        .chat-bubble { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+      }
+    </style>
 
     <script src="app.js"></script>
     <script>
